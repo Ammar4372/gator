@@ -20,6 +20,7 @@ func Read() (Config, error) {
 		return config, err
 	}
 	file, err := os.Open(filePath)
+	defer file.Close()
 	if err != nil {
 		return config, err
 	}
@@ -47,6 +48,7 @@ func write(cfg Config) error {
 		return err
 	}
 	file, err := os.OpenFile(filePath, os.O_RDWR, 0644)
+	defer file.Close()
 	if err != nil {
 		return err
 	}
@@ -55,6 +57,7 @@ func write(cfg Config) error {
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 
