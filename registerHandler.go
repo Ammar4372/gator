@@ -10,20 +10,20 @@ import (
 )
 
 func registerHandler(s *state, cmd command) error {
-	if len(cmd.args) == 0 {
-		return fmt.Errorf("no username is given")
+	if len(cmd.args) != 1 {
+		return fmt.Errorf("usage: %v <name>", cmd.name)
 	}
 	ctx := context.Background()
-	_, err := s.db.GetUser(ctx, cmd.args[0])
-	if err == nil {
-		return fmt.Errorf("User %s Already Exists", cmd.args[0])
-	}
+
 	params := database.CreateUserParams{ID: uuid.New(), Name: cmd.args[0], CreatedAt: time.Now(), UpdatedAt: time.Now()}
 	user, err := s.db.CreateUser(ctx, params)
 	if err != nil {
-		return err
+		return fmt.Errorf("couldn't create user: %w", err)
 	}
-	s.cfg.SetUser(user.Name)
-	fmt.Printf("Register User %s Successfully\n", user.Name)
+	err = s.cfg.SetUser(user.Name)
+	if err != nil {
+		return fmt.Errorf("couldn't set user: %w", err)
+	}
+	fmt.Printf("User Created Successfully\n", user.Name)
 	return nil
 }
