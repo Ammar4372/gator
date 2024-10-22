@@ -38,6 +38,7 @@ func main() {
 	cmds.register("login", loginHandler)
 	cmds.register("register", registerHandler)
 	cmds.register("reset", resetHandler)
+	cmds.register("users", listHandler)
 	args := os.Args
 	if len(args) < 2 {
 		fmt.Fprintln(os.Stderr, "no command name given")
