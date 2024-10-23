@@ -27,6 +27,9 @@ func main() {
 		os.Exit(1)
 	}
 	db, err := sql.Open("postgres", cfg.DBUrl)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+	}
 	dbQueries := database.New(db)
 	s := state{
 		cfg: &cfg,
@@ -40,6 +43,8 @@ func main() {
 	cmds.register("reset", resetHandler)
 	cmds.register("users", listHandler)
 	cmds.register("agg", aggHandler)
+	cmds.register("addfeed", addFeedHandler)
+	cmds.register("feeds", listFeedsHandler)
 	args := os.Args
 	if len(args) < 2 {
 		fmt.Fprintln(os.Stderr, "no command name given")

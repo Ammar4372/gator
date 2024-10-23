@@ -24,6 +24,6 @@ func registerHandler(s *state, cmd command) error {
 	if err != nil {
 		return fmt.Errorf("couldn't set user: %w", err)
 	}
-	fmt.Printf("User Created Successfully\n", user.Name)
+	fmt.Printf("User Created Successfully\n")
 	return nil
 }
